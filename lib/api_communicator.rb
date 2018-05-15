@@ -28,7 +28,7 @@ def get_info_from_api(search_value)
 
   results = JSON.parse(all_characters)["results"]
 
-  page = 1
+  page = 2
   until JSON.parse(all_characters)["next"] == nil
       all_characters = RestClient.get("http://www.swapi.co/api/#{search_value["search_type"]}/?page=#{page}")
       JSON.parse(all_characters)["results"].each do |result|
@@ -54,4 +54,12 @@ def show_character_movies(search_value)
   end
   films_hash = get_film_array_from_api(films_hash)
   parse_character_movies(films_hash)
+end
+
+def show_movie_information(search_value)
+end
+
+def selector(search_value)
+  search_value["search_type"] == "films" ? show_movie_information(search_value) : show_character_movies(search_value)
+
 end

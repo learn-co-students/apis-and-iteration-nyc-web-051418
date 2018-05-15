@@ -5,4 +5,4 @@ require_relative "../lib/command_line_interface.rb"
 
 welcome
 search_value = get_character_from_user
-show_character_movies(search_value)
+selector(search_value)
