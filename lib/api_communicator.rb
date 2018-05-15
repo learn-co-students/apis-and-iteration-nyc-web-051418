@@ -57,6 +57,17 @@ def show_character_movies(search_value)
 end
 
 def show_movie_information(search_value)
+  movie_results_array = get_info_from_api(search_value)
+  found_data_array = movie_results_array.find do |movie_data_package|
+    movie_data_package["title"].downcase == search_value["name"]
+  end
+
+  puts "Title: #{found_data_array["title"]}"
+  puts "Episode ID: #{found_data_array["episode_id"]}"
+  puts "Opening Crawl: #{found_data_array["opening_crawl"]}"
+  puts "Director: #{found_data_array["director"]}"
+  puts "Producer: #{found_data_array["producer"]}"
+  puts "Release Date: #{found_data_array["release_date"]}"
 end
 
 def selector(search_value)
