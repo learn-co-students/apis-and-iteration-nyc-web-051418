@@ -5,7 +5,7 @@ require 'pry'
 
 def find_character(page_num, character)
   #make the web request on input page
-  all_characters = RestClient.get("http://www.swapi.co/api/people/?page=9")
+  all_characters = RestClient.get("http://www.swapi.co/api/people/?#{page_num}")
   character_hash = JSON.parse(all_characters)
   character_info = character_hash["results"]
 
