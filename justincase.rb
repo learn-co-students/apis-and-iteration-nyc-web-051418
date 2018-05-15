@@ -17,22 +17,31 @@ def get_character_movies_from_api(character)
   #  and that method will do some nice presentation stuff: puts out a list
   #  of movies by title. play around with puts out other info about a given film.
 
+  new_method(url)
+
+  end
+
   new_character_array = []
-  character_hash["results"].each do |character_array|
+  character_films = character_hash["results"].each do |character_array|
     if character_array["name"].downcase == character
        new_character_array << character_array["films"]
     end
   end
+    film_info_array = []
     film_url_array = new_character_array.flatten
-    url_array(film_url_array)
+
+    film_url_array.map do |film_url|
+      titles_api = RestClient.get(film_url)
+      titles_json = JSON.parse(titles_api)
+      film_info_array << titles_json
+    end
+    film_info_array
 
 end
 
-def parse_character_movies(films_hash, character)
+def parse_character_movies(films_hash)
     # some iteration magic and puts out the movies in a nice list
   counter = 1
-  #input_name = get_character_from_user
-  puts "#{character} has been in the following episodes"
   films_hash.map do |film|
   puts  "#{counter}: #{film["title"]}."
   counter += 1
@@ -41,7 +50,7 @@ end
 
 def show_character_movies(character)
   films_hash = get_character_movies_from_api(character)
-  parse_character_movies(films_hash, character)
+  parse_character_movies(films_hash)
 end
 
 
@@ -49,12 +58,3 @@ end
 
 # that `get_character_movies_from_api` method is probably pretty long. Does it do more than one job?
 # can you split it up into helper methods?
-def url_array(url)
-film_info_array = []
-  url.map do |film_url|
-    titles_api = RestClient.get(film_url)
-    titles_json = JSON.parse(titles_api)
-    film_info_array << titles_json
-  end
-film_info_array
-end
