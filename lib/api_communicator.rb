@@ -11,10 +11,9 @@ def get_character_movies_from_api(character)
 
       if character_data["name"].downcase == character
 
-          binding.pry
-        parse_character_movies( character_data["films"] )
 
-
+          movies_array = character_data["films"]
+            binding.pry
 
 
       end
