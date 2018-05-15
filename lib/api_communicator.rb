@@ -3,11 +3,9 @@ require 'json'
 require 'pry'
 
 def get_character_movies_from_api(search_value)
+  character_array = get_info_from_api(search_value)
 
-  character_hash = get_info_from_api(search_value)
-  binding.pry
-
-  films_array = character_hash["results"].find do |character_data|
+  films_array = character_array.find do |character_data|
     character_data["name"].downcase == search_value["name"]
   end
 
@@ -27,14 +25,19 @@ end
 
 def get_info_from_api(search_value)
   all_characters = RestClient.get("http://www.swapi.co/api/#{search_value["search_type"]}/")
-  JSON.parse(all_characters)
+
+  results = JSON.parse(all_characters)["results"]
 
   page = 1
-  until JSON.parse(all_characters)["next"] == null
+  until JSON.parse(all_characters)["next"] == nil
       all_characters = RestClient.get("http://www.swapi.co/api/#{search_value["search_type"]}/?page=#{page}")
-      JSON.parse(all_characters)
+      JSON.parse(all_characters)["results"].each do |result|
+        results << result
+      end
       page += 1
-    end
+  end
+
+    results
 
 end
 
@@ -52,8 +55,3 @@ def show_character_movies(search_value)
   films_hash = get_film_array_from_api(films_hash)
   parse_character_movies(films_hash)
 end
-
-## BONUS
-
-# that `get_character_movies_from_api` method is probably pretty long. Does it do more than one job?
-# can you split it up into helper methods?
