@@ -1,8 +1,18 @@
 def welcome
-  # puts out a welcome message here!
+  puts("Welcome!")
+end
+
+def get_choice
+  puts "enter 1 for movie or 2 for character"
+  gets.chomp
+end
+
+def get_movie_from_user
+  puts "please enter an episode number"
+  gets.chomp()
 end
 
 def get_character_from_user
   puts "please enter a character"
-  # use gets to capture the user's input. This method should return that input, downcased.
+  gets.chomp()
 end
